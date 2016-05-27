@@ -27,7 +27,7 @@ trajRobxy=[];
 r0traj=[];
 global mycolor;
  mycolor=readcolor(); 
- Showflag=1;
+ Showflag=0;
  if Showflag
   DrawRobot2(x,y); %draw robot
  end
