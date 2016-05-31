@@ -12,7 +12,7 @@ phi = sort(temp);
 x = rho.* cos(phi);
 y = rho.* sin(phi);
 % defining time 
-dt=0.006;
+dt=0.001;
 t=0:dt:8*pi;
 % parameters ===================
 kp = 10.05;
@@ -26,7 +26,7 @@ trajRobxy=[];
 r0traj=[];
 global mycolor;
  mycolor=readcolor(); 
- Showflag=1;
+ Showflag=0;
  saveflag=0;
  h=0;
  if Showflag

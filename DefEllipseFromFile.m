@@ -21,9 +21,9 @@ rho=rho';phi=phi';
  
 % parameters ===================
 % precise movement
-kp = 15.05;
-kphi=8.5;
-Omeg = 2.84; % constant 
+kp = 45.05;
+kphi=20.5;
+Omeg = 12.84; % constant 
 
 %fast========================
 % kp = 45.05;
@@ -40,8 +40,8 @@ r0traj=[];
 global mycolor;
 mycolor=readcolor(); 
 
-Showflag=1;
-saveflag=1;
+Showflag=0;
+saveflag=0;
 h=0;
 if Showflag
   h=figure;
@@ -50,9 +50,9 @@ if Showflag
   DrawRobot2(x,y); %draw robot
 end
 
-writerObj = VideoWriter('EllipsewithTraj.avi');
+writerObj = VideoWriter('EllipsewithTraj2.avi');
 if saveflag
-    writerObj = VideoWriter('EllipsewithTraj.avi');
+    writerObj = VideoWriter('EllipsewithTraj2.avi');
     writerObj.FrameRate = 30;  % Default 30
     writerObj.Quality = 100;    % Default 75
     open(writerObj);
