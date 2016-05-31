@@ -27,7 +27,7 @@ if saveflag
     end
 end
 h1=figure, plot(1:iter-1,phierr);
-  set(h1,'Position',[200 200  myaxis(2) myaxis(4)]);
+set(h1,'Position',[200 200  myaxis(2) myaxis(4)]);
 title('Error of Phi');
 if saveflag
     frame = getframe(h1,[0 0 size(3) size(4)]);
@@ -38,7 +38,7 @@ end
 h1=figure,polar(traj_PhiRho(1:iter-1,1)',r0traj(1:n:end));
 set(h1,'Position',[0 0  size(3) size(4)])
 if saveflag
-  set(h1,'Position',[200 200  myaxis(2) myaxis(4)])
+    set(h1,'Position',[200 200  myaxis(2) myaxis(4)])
     for i=1:len
        writeVideo(writerObj,frame);
     end
