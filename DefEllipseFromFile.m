@@ -21,9 +21,9 @@ rho=rho';phi=phi';
  
 % parameters ===================
 % precise movement
-kp = 45.05;
-kphi=20.5;
-Omeg = 12.84; % constant 
+kp = 3.05;
+kphi= 2.5;
+Omeg = 0.94; % constant 
 
 %fast========================
 % kp = 45.05;
@@ -65,7 +65,7 @@ load traj_data.mat;
 Tlen=size(trajectory_data,1);
 trajectory_data; %  x,y, and width, the  constant area is 1000
 iter=1;
-d2t=0.005;
+d2t=0.003;
 for k=1:Tlen
     % tu_i=a_i.t^2/2+b_i.t+c_1
     % dot{tu_i}=a_i.t+b_i
@@ -73,11 +73,11 @@ for k=1:Tlen
     t=k-1:d2t:k;
     abc=trajectory_data{k,3};
     for ti=t    
-        x0 =abc(1,1)*ti^2/2+abc(1,2)*ti+abc(1,3); % r*cos(ti);
+        x0 =abc(1,1)*(ti^2)/2+abc(1,2)*ti+abc(1,3); % r*cos(ti);
         x0_dot = abc(1,1)*ti+abc(1,2);%-r*sin(ti);
-        y0 = abc(2,1)*ti^2/2+abc(2,2)*ti+abc(2,3);% r*sin(ti);
+        y0 = abc(2,1)*(ti^2)/2+abc(2,2)*ti+abc(2,3);% r*sin(ti);
         y0_dot = abc(2,1)*ti+abc(2,2);
-        a= abc(3,1)*ti^2/2+abc(3,2)*ti+abc(3,3); % need to correct the differenciate
+        a= abc(3,1)*(ti^2)/2+abc(3,2)*ti+abc(3,3); % need to correct the differenciate
         a_dot= abc(3,1)*ti+abc(3,2);
         b=A/(pi*a);
         for i=1:n
@@ -100,8 +100,8 @@ for k=1:Tlen
             dot_y(i) = dot_rho(i) * sin(phi(i)) + rho(i) * dot_phi(i) * cos(phi(i)) + y0_dot;
         end
         % Integrtion=============
-        x = x + dot_x'.* dt; 
-        y = y + dot_y'.* dt;    
+        x = x + dot_x'.* d2t; 
+        y = y + dot_y'.* d2t;    
         % =================================
         trajAbsxy = [trajAbsxy;[x0,y0]];
         trajRobxy=[trajRobxy;[x',y']];
