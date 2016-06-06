@@ -31,7 +31,7 @@ global mycolor;
  h=0;
  if Showflag
       h=figure;
-      axis(myaxis);
+z      axis(myaxis);
       set(h,'Position',[200 200  myaxis(2) myaxis(4)])
       DrawRobot2(x,y); %draw robot
  end

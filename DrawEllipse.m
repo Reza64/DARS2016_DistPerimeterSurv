@@ -4,5 +4,5 @@ function     DrawEllipse(xc,yc,a,b)
     hold on;
     plot(p(1,:),p(2,:),'color','b','LineWidth',2);
     plot(xc,yc,'+');
-    drawnow;
+%     drawnow;
 end

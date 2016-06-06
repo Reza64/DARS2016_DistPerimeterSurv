@@ -5,12 +5,6 @@ clc;
 n =5; % number of Robots
 A=1000; %the area of ellipse
 
-% rho = 2.3218;
-% phi=-0.3;
-% rho = 30+ones(n,1)*20;
-% temp=pi * rand(n,1);
-% phi = sort(temp);
-
 % initial positions
 x =[60;50;40;45;55];% rho.* cos(phi);
 y = [40;60;59;50;45];% rho.* sin(phi);
@@ -18,13 +12,14 @@ y = [40;60;59;50;45];% rho.* sin(phi);
 rho=rho';phi=phi';
 
 % parameters ===================
-d2t=0.0015;
 % precise movement
+% d2t=0.0015;
 % kp = 3.05;
 % kphi= 2.5;
 % Omeg = 0.94; % constant 
 
 %fast========================
+d2t=0.0015;
 kp = 45.05;
 kphi=20.5;
 Omeg = 8.84; % constant 
@@ -40,26 +35,23 @@ global mycolor;
 mycolor=readcolor(); 
 
 h=0;
-h=figure; 
-map=imread('map2.png');
-imagesc(flipdim(map, 1));
-colormap(gray);
+Showflag=1; 
+saveflag=0; 
+% if Showflag
+    h = figure('Backingstore', 'off');
+    map=imread('map2.png');
+    imagesc(flipdim(map, 1));
+    hold on;
+    xlim([0 150]);
+    ylim([0 150]);
+    set(gca,'ydir','normal'); 
+    set(h,'Position',[100 100  myaxis(2)*5 myaxis(4)*4])
+    handler=SetHandlers(n,x,y);
+% end
 
-Showflag=0; 
-saveflag=0;
-if Showflag
-%   h=figure;
-  figure(h);
-  hold on; 
-  axis(myaxis);
-  set(h,'Position',[100 100  myaxis(2)*5 myaxis(4)*4])
-  set(gca,'ydir','normal'); 
-%   DrawRobot2(x,y); %draw robot
-end
-
-writerObj = VideoWriter('EllipsewithTraj2.avi');
+writerObj = VideoWriter('EllipsewithTraj.avi');
 if saveflag
-    writerObj = VideoWriter('EllipsewithTraj2.avi');
+    writerObj = VideoWriter('EllipsewithTraj1.avi');
     writerObj.FrameRate = 30;  % Default 30
     writerObj.Quality = 100;    % Default 75
     open(writerObj);
@@ -111,31 +103,24 @@ for k=1:Tlen
         % =================================
         trajAbsxy = [trajAbsxy;[x0,y0]];
         trajRobxy=[trajRobxy;[x',y']];
-     if Showflag
-%          figure(h);
-%          axis(myaxis);
-%          imagesc(flipdim(map, 1));
-%          colormap(gray);         
-%          set(h,'Position',[100 100  myaxis(2)*5 myaxis(4)*4])
-%          set(gca,'ydir','normal');
-        for i=1:1
-            hold on;
-            plot(trajRobxy(:,i),trajRobxy(:,n+i),'k');
-        end
-        hold on; 
-        DrawEllipse(x0,y0,a,b);
-        DrawRobot2(x,y); %draw robot
-        hold on;
-        plot(trajAbsxy(:,1),trajAbsxy(:,2),'-.r');    
-         drawnow;
-          pause(0.002);
-%         delay(1)
-        if saveflag
-            frame = getframe(h,[0 0 myaxis(2)*5 myaxis(4)*4]);
-            writeVideo(writerObj,frame);
-        end         
-     end
-        DeleteObjects(x0,y0,a,b,x,y); 
+        %=================================
+        if Showflag
+            for i =1: n
+                set(handler(i),'XData',x(i),'YData',y(i));
+            end
+            p=ellipsePoint(x0,y0,a,b);
+            set(handler(n+1),'XData',p(1,:),'YData',p(2,:));    
+            set(handler(n+2),'XData',trajRobxy(:,1),'YData',trajRobxy(:,n+1));             
+            set(handler(n+3),'XData',trajAbsxy(:,1),'YData',trajAbsxy(:,2));             
+            set(handler(n+4),'XData',x0,'YData',y0);             
+            drawnow;                 
+%             pause(0.001);
+            if saveflag
+                frame = getframe(h,[0 0 myaxis(2)*5 myaxis(4)*4]);
+                writeVideo(writerObj,frame);
+            end         
+         end
+     %=================================
      % convert to polar coordinates
         oldphi=phi;
         [rho phi] = Convert2Polar(x,y,x0,y0,n); 
@@ -151,17 +136,17 @@ for k=1:Tlen
         end
     %     phierr(iter,i+1)=abs(phi(1)-phi(n));
         iter = iter+1;
-%          if Showflag
-%             if (ti~=t(end))
-%                clf('reset');
-%             end    
-%          end
     end
 end %  Iter
 %% ====================================
-if Showflag
-hold on;
-DrawEllipse(x0,y0,a,b);
-DrawRobot2(x,y); %draw robot
+for i =1: n
+   set(handler(i),'XData',x(i),'YData',y(i));
 end
+p=ellipsePoint(x0,y0,a,b);
+set(handler(n+1),'XData',p(1,:),'YData',p(2,:));    
+set(handler(n+2),'XData',trajRobxy(:,1),'YData',trajRobxy(:,n+1));             
+set(handler(n+3),'XData',trajAbsxy(:,1),'YData',trajAbsxy(:,2));             
+set(handler(n+4),'XData',x0,'YData',y0);             
+drawnow;  
+
 SavePlot2(n,h,myaxis,saveflag,Showflag,writerObj,iter,Verr,phierr,trajRobxy,traj_PhiRho,r0traj)
