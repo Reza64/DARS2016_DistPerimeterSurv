@@ -6,7 +6,7 @@ n =5; % number of Robots
 A=1000; %the area of ellipse
 
 % initial positions
-x =[60;50;40;45;55];% rho.* cos(phi);
+x =[55;50;40;45;55];% rho.* cos(phi);
 y = [40;60;59;50;45];% rho.* sin(phi);
 [rho phi] = Convert2Polar(x,y,30,39,n); 
 rho=rho';phi=phi';
@@ -35,7 +35,7 @@ global mycolor;
 mycolor=readcolor(); 
 
 h=0;
-Showflag=1; 
+Showflag=0; 
 saveflag=0; 
 % if Showflag
     h = figure('Backingstore', 'off');
@@ -49,9 +49,9 @@ saveflag=0;
     handler=SetHandlers(n,x,y);
 % end
 
-writerObj = VideoWriter('EllipsewithTraj.avi');
+writerObj = VideoWriter('EllipsewithTraj2.avi');
 if saveflag
-    writerObj = VideoWriter('EllipsewithTraj1.avi');
+    writerObj = VideoWriter('EllipsewithTraj2.avi');
     writerObj.FrameRate = 30;  % Default 30
     writerObj.Quality = 100;    % Default 75
     open(writerObj);
@@ -105,9 +105,12 @@ for k=1:Tlen
         trajRobxy=[trajRobxy;[x',y']];
         %=================================
         if Showflag
+            Lines=ComputeLines(n,x0,y0,x,y);
             for i =1: n
-                set(handler(i),'XData',x(i),'YData',y(i));
+                set(handler(i),'XData',x(i),'YData',y(i));  
+                set(handler(n+4+i),'XData',Lines(i).l(1,:),'YData',Lines(i).l(2,:));
             end
+            
             p=ellipsePoint(x0,y0,a,b);
             set(handler(n+1),'XData',p(1,:),'YData',p(2,:));    
             set(handler(n+2),'XData',trajRobxy(:,1),'YData',trajRobxy(:,n+1));             

@@ -19,3 +19,9 @@ color = hsv(n);
     handler(n+4) = plot(nan,'--rs');
     set(handler(n+4),'Color','k','MarkerFaceColor','k','MarkerSize',10);
     set(handler(n+4),'XData',[],'YData',[]); 
+    %lines for each robot
+    for i=1:n
+        handler(n+4+i) = plot(nan);
+        set(handler(n+4+i),'Color',color(i,:),'LineWidth',1);
+        set(handler(n+4+i),'XData',[],'YData',[]);     
+    end
