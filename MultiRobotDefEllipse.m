@@ -26,12 +26,12 @@ trajRobxy=[];
 r0traj=[];
 global mycolor;
  mycolor=readcolor(); 
- Showflag=0;
+ Showflag=1;
  saveflag=0;
  h=0;
  if Showflag
       h=figure;
-z      axis(myaxis);
+      axis(myaxis);
       set(h,'Position',[200 200  myaxis(2) myaxis(4)])
       DrawRobot2(x,y); %draw robot
  end

@@ -54,7 +54,7 @@ for ti=t
     for i=1:n
         ph=phi(i);
 %         r0(i) = a*b/(sqrt(b^2*cos(ph)^2+a^2*sin(ph)^2)); 
-        r0 = 200+ 50 * cos(ph);
+        r0 = 200+ 10 * cos(ph);
     end
     r0traj=[r0traj r0];   
     %=============================================
